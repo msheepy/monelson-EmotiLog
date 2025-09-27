@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import java.util.List;
 
 public class FirstFragment extends Fragment {
     private ListView lv;
+    private ArrayList<String> logged;
     private FragmentFirstBinding binding;
 
     @Override
@@ -48,6 +51,15 @@ public class FirstFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, options );
 
         lv.setAdapter(arrayAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String clickedItem = (String) parent.getItemAtPosition(position);
+                //logged.add(clickedItem);
+                Toast.makeText(requireContext(), "Logged: " + clickedItem, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         binding.changeButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(FirstFragment.this)

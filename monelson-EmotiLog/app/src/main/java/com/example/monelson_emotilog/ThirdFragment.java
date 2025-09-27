@@ -1,64 +1,69 @@
 package com.example.monelson_emotilog;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ThirdFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ThirdFragment extends Fragment {
+import com.example.monelson_emotilog.databinding.FragmentFirstBinding;
+import com.example.monelson_emotilog.databinding.FragmentThirdBinding;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class ThirdFragment extends DialogFragment {
 
-    public ThirdFragment() {
-        // Required empty public constructor
+    private ListView lv;
+    private FragmentThirdBinding binding;
+
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
+        binding = FragmentThirdBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ThirdFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ThirdFragment newInstance(String param1, String param2) {
-        ThirdFragment fragment = new ThirdFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        lv = (ListView) view.findViewById(R.id.logged_emotions);
+        List<LoggedEmotion> options = new ArrayList<LoggedEmotion>();
+        LocalDateTime now = LocalDateTime.now();
+        options.add(new LoggedEmotion("\uD83D\uDE10", LocalDateTime.now()));
+        options.add(new LoggedEmotion("\uD83D\uDE26", LocalDateTime.now()));
+        options.add(new LoggedEmotion("\uD83D\uDE2C", LocalDateTime.now()));
+        options.add(new LoggedEmotion("\uD83D\uDE27", LocalDateTime.now()));
+        options.add(new LoggedEmotion("\uD83D\uDE28", LocalDateTime.now()));
+        options.add(new LoggedEmotion("\uD83D\uDE2D", LocalDateTime.now()));
+
+        ArrayAdapter<String> arrayAdapter = new LoggedEmotionArrayAdapter(getContext(), options);
+
+        lv.setAdapter(arrayAdapter);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_third, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

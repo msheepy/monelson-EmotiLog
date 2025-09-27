@@ -54,4 +54,6 @@
     <string name="emo4">😧</string>
     <string name="emo5">😨</string>
     <string name="emo6">😭</string>
+    <string name="changePrompt">Would you like to change your options?</string>
+    <string name="emoji_prompt">Input your emoji here</string>
 </resources>
