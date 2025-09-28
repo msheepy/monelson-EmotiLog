@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,17 +47,12 @@ public class ThirdFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lv = (ListView) view.findViewById(R.id.logged_emotions);
-        List<LoggedEmotion> options = new ArrayList<LoggedEmotion>();
-        LocalDateTime now = LocalDateTime.now();
-        options.add(new LoggedEmotion("\uD83D\uDE10", LocalDateTime.now()));
-        options.add(new LoggedEmotion("\uD83D\uDE26", LocalDateTime.now()));
-        options.add(new LoggedEmotion("\uD83D\uDE2C", LocalDateTime.now()));
-        options.add(new LoggedEmotion("\uD83D\uDE27", LocalDateTime.now()));
-        options.add(new LoggedEmotion("\uD83D\uDE28", LocalDateTime.now()));
-        options.add(new LoggedEmotion("\uD83D\uDE2D", LocalDateTime.now()));
+        ShareLog log = new ViewModelProvider(requireActivity()).get(ShareLog.class);
 
-        ArrayAdapter<String> arrayAdapter = new LoggedEmotionArrayAdapter(getContext(), options);
+       lv = (ListView) view.findViewById(R.id.logged_emotions);
+
+        List<LoggedEmotion> fromLog = log.getLog().getValue();
+        ArrayAdapter<String> arrayAdapter = new LoggedEmotionArrayAdapter(getContext(), fromLog);
 
         lv.setAdapter(arrayAdapter);
     }
