@@ -20,20 +20,39 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/emotion_list"
+            app:layout_constraintBottom_toTopOf="@+id/emotion_options_list"
             app:layout_constraintTop_toTopOf="parent"/>
+
         <ListView
-            android:id="@+id/emotion_list"
+            android:id="@+id/emotion_options_list"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_weight="1"
             android:clipToPadding="false"
             android:padding="8dp"
             android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/edit_option_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeMessage">
+        </ListView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_option_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
-            tools:layout_editor_absoluteX="-77dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emotion_options_list"
+            android:visibility="gone">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your new emoticon" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

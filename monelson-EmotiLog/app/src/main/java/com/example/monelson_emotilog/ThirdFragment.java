@@ -49,7 +49,7 @@ public class ThirdFragment extends DialogFragment {
 
         ShareLog log = new ViewModelProvider(requireActivity()).get(ShareLog.class);
 
-       lv = (ListView) view.findViewById(R.id.logged_emotions);
+        lv = (ListView) view.findViewById(R.id.logged_emotions);
 
         List<LoggedEmotion> fromLog = log.getLog().getValue();
         ArrayAdapter<String> arrayAdapter = new LoggedEmotionArrayAdapter(getContext(), fromLog);
