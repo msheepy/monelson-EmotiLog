@@ -28,9 +28,8 @@ import java.util.Objects;
 public class SecondFragment extends Fragment implements EditOptionsFragment.EditOptionsDialogListener {
     private FragmentSecondBinding binding;
     private ListView lv;
-    private int curCityInd;
-
-    ArrayAdapter arrayAdapter;
+    private int curEmoInd;
+    private ArrayAdapter arrayAdapter;
 
     @Override
     public View onCreateView(
@@ -50,7 +49,7 @@ public class SecondFragment extends Fragment implements EditOptionsFragment.Edit
 
         lv = (ListView) view.findViewById(R.id.emotion_options_list);
 
-        arrayAdapter = new ArrayAdapter(requireContext(), 0, fromOpts);
+        arrayAdapter = new ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, fromOpts);
 
         lv.setAdapter(arrayAdapter);
 
@@ -59,8 +58,12 @@ public class SecondFragment extends Fragment implements EditOptionsFragment.Edit
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String clickedItem = (String) parent.getItemAtPosition(position);
-                curCityInd = position;
-                new EditOptionsFragment().show(getParentFragmentManager(), "Edit options");
+                curEmoInd = position;
+                EditOptionsFragment dialog = new EditOptionsFragment();
+                dialog.setTargetFragment(SecondFragment.this, 0);
+                dialog.show(getParentFragmentManager(), "Edit options");
+                arrayAdapter.notifyDataSetChanged();
+                //new EditOptionsFragment().show(getParentFragmentManager(), "Edit options");
             }
         });
 
@@ -74,12 +77,12 @@ public class SecondFragment extends Fragment implements EditOptionsFragment.Edit
 
     @Override
     public void editOptions(String emoticon) {
-        //String toBeModified = (String)arrayAdapter.getItem(curCityInd);
+        //String toBeModified = (String)arrayAdapter.getItem(curEmoInd);
 
         ShareOptions opts = new ViewModelProvider(requireActivity()).get(ShareOptions.class);
         ArrayList<String> fromOpts = opts.getOptions().getValue();
         assert fromOpts != null;
-        fromOpts.set(curCityInd, emoticon);
+        fromOpts.set(curEmoInd, emoticon);
         opts.setOptions(fromOpts);
         arrayAdapter.notifyDataSetChanged();
     }

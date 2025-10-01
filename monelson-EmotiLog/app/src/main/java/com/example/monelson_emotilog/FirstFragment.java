@@ -27,6 +27,7 @@ public class FirstFragment extends Fragment {
     private ListView lv;
     private ArrayList<String> logged = new ArrayList<>();
     private FragmentFirstBinding binding;
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     public View onCreateView(
@@ -43,21 +44,31 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ShareOptions opts = new ViewModelProvider(requireActivity()).get(ShareOptions.class);
+
+        List fromOpts = opts.getOptions().getValue();
         ShareLog log = new ViewModelProvider(requireActivity()).get(ShareLog.class);
 
         lv = (ListView) view.findViewById(R.id.emotion_list);
-        List<String> options = new ArrayList<String>();
-        options.add("\uD83D\uDE10");
-        options.add("\uD83D\uDE26");
-        options.add("\uD83D\uDE2C");
-        options.add("\uD83D\uDE27");
-        options.add("\uD83D\uDE28");
-        options.add("\uD83D\uDE2D");
+//        ArrayList<String> options = new ArrayList<String>();
+//        options.add("\uD83D\uDE10");
+//        options.add("\uD83D\uDE26");
+//        options.add("\uD83D\uDE2C");
+//        options.add("\uD83D\uDE27");
+//        options.add("\uD83D\uDE28");
+//        options.add("\uD83D\uDE2D");
 
+//        opts.setOptions(options);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, options );
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, new ArrayList<>());
 
         lv.setAdapter(arrayAdapter);
+
+        opts.getOptions().observe(getViewLifecycleOwner(), newOptions -> {
+            arrayAdapter.clear();
+            arrayAdapter.addAll(newOptions);
+            arrayAdapter.notifyDataSetChanged();
+        });
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -73,6 +84,7 @@ public class FirstFragment extends Fragment {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment)
         );
+        arrayAdapter.notifyDataSetChanged();
         binding.dayButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_ThirdFragment)

@@ -23,10 +23,10 @@ public class EditOptionsFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof EditOptionsDialogListener){
-            listener = (EditOptionsDialogListener) context;
+        if (getTargetFragment() instanceof EditOptionsDialogListener) {
+            listener = (EditOptionsDialogListener) getTargetFragment();
         } else {
-            throw new RuntimeException(context + "must implement AddCityDialogListener");
+            throw new ClassCastException("Parent fragment must implement EditOptionsDialogListener");
         }
     }
 
